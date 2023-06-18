@@ -1,8 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[264]:
-
 
 #list of imports 
 import numpy as np
@@ -23,14 +18,9 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import OneHotEncode
 
 
-# In[265]:
-
-
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print("Device: {}".format(device))
 
-
-# In[266]:
 
 
 #dataloading
@@ -48,9 +38,6 @@ X_test, y_test = np.load("dataset/inputs_test_fp16.npy"), np.load(
 X_train, X_test = X_train.astype(np.float32), X_test.astype(np.float32)
 
 
-# In[267]:
-
-
 #define mean min max
 mean = (np.mean(X_train))
 min = np.min(X_train)
@@ -58,9 +45,6 @@ max = np.max(X_train)
 peak = np.max(np.abs(X_train))
 desired_peak_level = 0.5  # Specify the desired peak level in dBFS
 scale = desired_peak_level/peak
-
-
-# In[269]:
 
 
 #normalization scaled to min max 
@@ -78,9 +62,6 @@ class Normalization(nn.Module):
             x = (x-self.min)/(self.max-self.min)*2 -1
         return x
 norm = Normalization( scale,min,max)
-
-
-# In[270]:
 
 
 #transformation to Mel spectogram 
@@ -102,8 +83,6 @@ class TransformMel(nn.Module):
 transform = TransformMel()
 
 
-# In[271]:
-
 
 #turn into tensor 
 X_train = torch.tensor(X_train)
@@ -112,7 +91,6 @@ y_train = torch.from_numpy(y_train)
 y_test = torch.from_numpy(y_test)
 
 
-# In[272]:
 
 
 #encode the class label 
@@ -121,14 +99,11 @@ y_train = label_encoder.fit_transform(y_train)
 y_test = label_encoder.transform(y_test)
 
 
-# In[273]:
 
 
 #Split training and validation set
 X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.2, random_state=42)
 
-
-# In[274]:
 
 
 #Define custom dataset
@@ -151,8 +126,6 @@ test_dataset = MelSpectrogramDataset(X_test, y_test)
 
 # Put dataset in the dataloader
 
-# In[275]:
-
 
 batch_size = 32
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
@@ -161,8 +134,6 @@ test_loader = DataLoader(test_dataset, batch_size=batch_size)
 
 
 # CNN model
-
-# In[276]:
 
 
 
@@ -223,7 +194,7 @@ model = CNNModel(num_classes)
 
 num_epochs = 10
 criterion = nn.CrossEntropyLoss()
-#optimizer and learing rate is adjust manually 
+#optimizer and learning rate is adjusted manually 
 optimizer = optim.Adam(model.parameters(), lr=0.0005)
 model = model.to(device)
 
@@ -250,10 +221,6 @@ for epoch in range(num_epochs):
 
 
 # Check the accuracy
-
-# In[279]:
-
-
 
 
 model.eval()
