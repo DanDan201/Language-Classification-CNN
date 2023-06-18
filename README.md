@@ -8,7 +8,7 @@
 ## Model architecture
 #### The CNN architecture employed for language classification consists of several layers designed to extract important features from the input. The following is the architecture of the model:
 #### 1. Normalization Layer: apply normalization to the input data
-#### 2. Transformation Layer: transform the normalized data into mel spectrogram to better extract important features
+#### 2. Transformation Layer: transform the normalized data into mel spectrogram.
 #### 3. Convolutional Layers: convolutional filters to capture local patterns and features.
 #### 4. MaxPooling Layer: Extract the most important features from the convolutional layers.
 #### 5. Fully Connected Layers: Perform classification based on the extracted features.
