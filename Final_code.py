@@ -82,8 +82,6 @@ class TransformMel(nn.Module):
         return x_mel
 transform = TransformMel()
 
-
-
 #turn into tensor 
 X_train = torch.tensor(X_train)
 X_test = torch.tensor(X_test)
@@ -91,14 +89,10 @@ y_train = torch.from_numpy(y_train)
 y_test = torch.from_numpy(y_test)
 
 
-
-
 #encode the class label 
 label_encoder = LabelEncoder()
 y_train = label_encoder.fit_transform(y_train)
 y_test = label_encoder.transform(y_test)
-
-
 
 
 #Split training and validation set
@@ -126,7 +120,6 @@ test_dataset = MelSpectrogramDataset(X_test, y_test)
 
 # Put dataset in the dataloader
 
-
 batch_size = 32
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 val_loader = DataLoader(val_dataset, batch_size=batch_size)
@@ -134,8 +127,6 @@ test_loader = DataLoader(test_dataset, batch_size=batch_size)
 
 
 # CNN model
-
-
 
 class CNNModel(nn.Module):
     def __init__(self, num_classes):
@@ -189,12 +180,11 @@ model = CNNModel(num_classes)
 
 # Train the model
 
-# In[277]:
-
-
 num_epochs = 10
 criterion = nn.CrossEntropyLoss()
+
 #optimizer and learning rate is adjusted manually 
+
 optimizer = optim.Adam(model.parameters(), lr=0.0005)
 model = model.to(device)
 
